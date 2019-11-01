@@ -1,20 +1,9 @@
 (ns ^:figwheel-hooks mecca.music
   (:require
    [cljs.core.async :refer [<! timeout chan put! close!]]
-   [reagent.core :as r]
    [re-frame.core :as rf :refer [subscribe dispatch]])
   (:require-macros
    [cljs.core.async.macros :refer [go go-loop]]))
-
-(defn ^:export audio-context []
-  (if js/window.AudioContext.
-    (js/window.AudioContext.)
-    (js/window.webkitAudioContext.)))
-
-(defonce audiocontext (r/atom (audio-context)))
-
-(defn ^:export current-time [context]
-  (.-currentTime context))
 
 (defn mario-jump []
   (let [beat (subscribe [:current-position])
@@ -25,32 +14,6 @@
       (if (< 0 (count (filter #(= (:time %) (inc @beat))
                               @notes)))
       (dispatch [:jump!])))))
-
-(defn mario-move []
-  (let [notes (subscribe [:notes])
-        playing? @(subscribe [:playing?])
-        now (.-currentTime @audiocontext)
-        length (apply max (map #(:time %) @notes))
-        started (subscribe [:play-start])
-        elapsed (- (current-time @audiocontext) @started)
-        beat-length (/ 60 @(subscribe [:tempo]))
-        end-time (+ @started (* beat-length 4))
-        current-beat (/ elapsed beat-length)
-        last-drawn-pos (subscribe [:current-position])]
-    (when playing?
-      (if (< length current-beat)
-        (dispatch [:play-off])
-        (if (< @last-drawn-pos current-beat)
-          (do (dispatch [:move-mario])
-            (dispatch [:advance-position])))))
-    (mario-jump)))
-
-(defn dispatch-timer-event []
-  (dispatch [:tick!])
-      (mario-move))
-
-(defonce do-timer
-  (js/setInterval dispatch-timer-event 60))
 
 (defn load-sound [named-url]
   (let [out (chan)
@@ -70,7 +33,7 @@
     (if (:buffer named-url)
       (do
         (.decodeAudioData
-         @audiocontext (:buffer named-url)
+         @(subscribe [:audio-context]) (:buffer named-url)
          (fn [decoded-buffer]
            (put! out (assoc named-url :decoded-buffer decoded-buffer))
            (close! out))
@@ -81,7 +44,7 @@
     out))
 
 (defn buffer-source [buffer]
-  (let [source (.createBufferSource @audiocontext)]
+  (let [source (.createBufferSource @(subscribe [:audio-context]))]
     (set! (.-buffer source) buffer)
     source))
 
@@ -105,7 +68,7 @@
 
 (defonce loading-samples
   (go
-    (def samples (<! (load-samples)))
+   (dispatch [:load-samples  (<! (load-samples))])
     (prn "Samples loaded")))
 
 (defn add-semitone [rate]
@@ -126,8 +89,9 @@
     (dec-rate (- 68 midi-num))))
 
 (defn play-sample [instrument pitch]
-  (let [context audiocontext
-        audio-buffer (:decoded-buffer (get samples instrument))
+  (let [context (subscribe [:audio-context])
+        samples (subscribe [:samples])
+        audio-buffer (:decoded-buffer (get @samples instrument))
         sample-source (.createBufferSource @context)
         compressor (.createDynamicsCompressor @context)
         analyser (.createAnalyser @context)]
@@ -142,8 +106,9 @@
     sample-source))
 
 (defn play-at [instrument pitch time]
-  (let [context audiocontext
-        audio-buffer (:decoded-buffer (get samples instrument))
+  (let [context (subscribe [:audio-context])
+        samples (subscribe [:samples])
+        audio-buffer (:decoded-buffer (get @samples instrument))
         sample-source (.createBufferSource @context)]
     (set! (.-buffer sample-source) audio-buffer)
     (.setValueAtTime
@@ -171,7 +136,7 @@
 
 (defn play-section [from to]
   (let [notes (subscribe [:notes])
-        now (.-currentTime @audiocontext)
+        now (.-currentTime @(subscribe [:audio-context]))
         tempo (subscribe [:tempo])
         section (filter #(<= from (:time %) to) @notes)
         advanced (map #(advance-note from %) section)]
@@ -205,7 +170,7 @@
 
 (defn play-song! []
   (let [notes (subscribe [:notes])
-        now (.-currentTime @audiocontext)
+        now (.-currentTime @(subscribe [:audio-context]))
         tempo (subscribe [:tempo])]
     (dispatch [:reset-position])
     (doall (for [{:keys [time instrument pitch]} @notes]
