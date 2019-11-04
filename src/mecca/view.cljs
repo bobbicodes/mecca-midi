@@ -20,6 +20,16 @@
           (.readAsArrayBuffer reader file)
           (set! (.-onload reader)
                 (fn [e]
-                  (dispatch [:file-upload (crypt/byteArrayToHex (js/Uint8Array. (-> e .-target .-result)))])))))}]]
-   [:h2 "Hex dump:"]
-   [:p (str @(subscribe [:file-upload]))]])
+                  (dispatch [:file-upload 
+                             (-> e .-target .-result
+                                 (js/Uint8Array.)
+                                 crypt/byteArrayToHex)
+                             ])))))}]]
+   (let [file (subscribe [:file-upload])]
+     [:div
+      [:h2 "Hex dump:"]
+      [:p (str @file)]
+      [:h2 "Header:"]
+      [:p (apply str (take 8 @file))]
+      (if (= (apply str (take 8 @file)) "4d546864")
+        [:h3.green "Valid MIDI file :)"])])])

@@ -25,7 +25,7 @@
 }
 
 body {
-  background-color: var(--sky);
+  background-color: lightblue;
   padding: 0;
   font-family: sans-serif, system-ui;
   font-size: 100%;
@@ -34,6 +34,10 @@ body {
 
 h2 {
   font-size: 1.2em;
+}
+
+.green {
+  color: rgb(30, 230, 30);
 }
 
   h1 {
