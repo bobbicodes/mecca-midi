@@ -1,13 +1,14 @@
 (ns ^:figwheel-hooks mecca.view
-  (:require [mecca.subs :as subs]
-            [re-frame.core :as rf :refer [subscribe dispatch]]
-            [mecca.events :as events]
-            [goog.object :as o]
-            [goog.crypt :as crypt]))
+  (:require
+   [re-frame.core :as rf :refer [subscribe dispatch]]
+   [goog.object :as o]
+   [goog.crypt :as crypt]))
+
+(+ 6 7 8)
 
 (defn mecca []
   [:div
-   [:h1 "Import MIDI file"]
+   [:h1 "Import MIDI"]
    [:p]
    [:div
     [:input#input
@@ -19,17 +20,15 @@
               reader (js/FileReader.)]
           (.readAsArrayBuffer reader file)
           (set! (.-onload reader)
-                (fn [e]
-                  (dispatch [:file-upload 
-                             (-> e .-target .-result
+                #(dispatch [:file-upload
+                             (-> % .-target .-result
                                  (js/Uint8Array.)
-                                 crypt/byteArrayToHex)
-                             ])))))}]]
+                                 crypt/byteArrayToHex)]))))}]]
    (let [file (subscribe [:file-upload])]
      [:div
       [:h2 "Hex dump:"]
       [:p (str @file)]
       [:h2 "Header:"]
       [:p (apply str (take 8 @file))]
-      (if (= (apply str (take 8 @file)) "4d546864")
+      (when (= (apply str (take 8 @file)) "4d546864")
         [:h3.green "Valid MIDI file :)"])])])
