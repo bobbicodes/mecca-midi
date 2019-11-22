@@ -1,4 +1,7 @@
 # mecca-midi
-Clojure library for importing and manipulating MIDI files
 
-Companion [notebook](https://nextjournal.com/btowers/midi-parser) on Nextjournal
+Clojurescript app for exploring MIDI files
+
+[Try it here](https://porkostomus.github.io/mecca-midi/)
+
+![Screenshot](midi1.png)
