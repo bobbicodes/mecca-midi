@@ -3,6 +3,7 @@
    [re-frame.core :as rf :refer [subscribe dispatch]]
    [goog.object :as o]
    [goog.crypt :as crypt]
+   [mecca.midi :as midi]
    [mecca.songs :as songs]))
 
 (defn file-upload []
@@ -35,20 +36,39 @@
        ^{:key song}
        [:option song]))]])
 
+(defn hex-bytes
+  ([file n] (hex-bytes file n (inc n)))
+  ([file from to]
+   (map #(apply str %)
+        (partition 2 (take (- (* 2 to) (* 2 from))
+                           (drop (* 2 from) file))))))
+
+(defn header-table [file offsets]
+  [:div
+   [:table.tg
+    [:tbody
+     [:tr [:th.tg-0pky "Bytes"] [:th.tg-0lax "Hex"] [:th.tg-0lax "Notes"]]
+     (doall (for [[[from to] notes] offsets]
+              ^{:key from}
+              [:tr
+               [:td.tg-hmp3 (str "$" (.toString from 16) " - $" (.toString to 16))]
+               [:td.tg-hmp3 (apply str (interpose " " (hex-bytes file from to)))]
+               [:td.tg-hmp3 (str (->>
+                                  (hex-bytes file from to)
+                                  notes))]]))]]])
 
 (defn midi-output []
   (let [file (subscribe [:file-upload])]
     [:div
-     [:h2 "Hex dump:"]
      [:textarea
       {:rows      8
        :cols      38
        :value     (apply str (interpose " " (map #(apply str %) (partition 2 @file))))
        :read-only true}]
-     [:h2 "Header:"]
-     [:p (apply str (take 8 @file))]
      (when (= (apply str (take 8 @file)) "4D546864")
-       [:h3.green "Valid MIDI file :)"])]))
+       [:div
+        [:p.green "This is a MIDI file :)"]
+        [header-table @file midi/midi-offsets]])]))
 
 (comment
   
