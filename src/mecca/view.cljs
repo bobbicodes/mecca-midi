@@ -70,16 +70,34 @@
         [:p.green "This is a MIDI file :)"]
         [header-table @file midi/midi-offsets]])]))
 
+(defn tracks [file]
+  (into [:div]
+        (for [track (range (count (midi/midi-tracks file)))]
+           ^{:key track}
+           [:div
+            [:h4 (str "Track " (inc track) " - " 
+                      (midi/hex->dec (take 8 (nth (midi/midi-tracks file) track)))
+                      " bytes")]
+            [:textarea
+             {:rows      8
+              :cols      38
+              :value     (apply str (interpose " " (map #(apply str %) (partition 2 (nth (midi/midi-tracks file) track)))))
+              :read-only true}]])))
+
 (comment
-  
-(map #(apply str %) (partition 2 @(subscribe [:file-upload])))
- 
+
+  (map #(apply str %) (partition 2 @(subscribe [:file-upload])))
+  (range (count (midi/midi-tracks @(subscribe [:file-upload]))))
+  (apply str (interpose " " (map #(apply str %) (partition 2 (nth (midi/midi-tracks @(subscribe [:file-upload])) 0)))))
+  (midi/hex->dec (take 8 (nth (midi/midi-tracks @(subscribe [:file-upload])) 0)))
   )
 
 
 (defn mecca []
+  (let [file (subscribe [:file-upload])]
   [:div
    [:h1 "Import MIDI"]
    [file-upload]
    [song-picker]
-   [midi-output]])
+   [midi-output]
+   [tracks @file]]))

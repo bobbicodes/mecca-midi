@@ -175,6 +175,62 @@ return cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.str,p1__12598_SHA
 });})(file))
 ,cljs.core.partition.cljs$core$IFn$_invoke$arity$2((2),cljs.core.deref(file))))),cljs.core.cst$kw$read_DASH_only,true], null)], null),((cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.str,cljs.core.take.cljs$core$IFn$_invoke$arity$2((8),cljs.core.deref(file))),"4D546864"))?new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$p$green,"This is a MIDI file :)"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [mecca.view.header_table,cljs.core.deref(file),mecca.midi.midi_offsets], null)], null):null)], null);
 });
+mecca.view.tracks = (function mecca$view$tracks(file){
+return cljs.core.into.cljs$core$IFn$_invoke$arity$2(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div], null),(function (){var iter__4324__auto__ = (function mecca$view$tracks_$_iter__12601(s__12602){
+return (new cljs.core.LazySeq(null,(function (){
+var s__12602__$1 = s__12602;
+while(true){
+var temp__5457__auto__ = cljs.core.seq(s__12602__$1);
+if(temp__5457__auto__){
+var s__12602__$2 = temp__5457__auto__;
+if(cljs.core.chunked_seq_QMARK_(s__12602__$2)){
+var c__4322__auto__ = cljs.core.chunk_first(s__12602__$2);
+var size__4323__auto__ = cljs.core.count(c__4322__auto__);
+var b__12604 = cljs.core.chunk_buffer(size__4323__auto__);
+if((function (){var i__12603 = (0);
+while(true){
+if((i__12603 < size__4323__auto__)){
+var track = cljs.core._nth.cljs$core$IFn$_invoke$arity$2(c__4322__auto__,i__12603);
+cljs.core.chunk_append(b__12604,cljs.core.with_meta(new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$h4,["Track ",cljs.core.str.cljs$core$IFn$_invoke$arity$1((track + (1)))," - ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(mecca.midi.hex__GT_dec(cljs.core.take.cljs$core$IFn$_invoke$arity$2((8),cljs.core.nth.cljs$core$IFn$_invoke$arity$2(mecca.midi.midi_tracks(file),track))))," bytes"].join('')], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$textarea,new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$rows,(8),cljs.core.cst$kw$cols,(38),cljs.core.cst$kw$value,cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.str,cljs.core.interpose.cljs$core$IFn$_invoke$arity$2(" ",cljs.core.map.cljs$core$IFn$_invoke$arity$2(((function (i__12603,track,c__4322__auto__,size__4323__auto__,b__12604,s__12602__$2,temp__5457__auto__){
+return (function (p1__12600_SHARP_){
+return cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.str,p1__12600_SHARP_);
+});})(i__12603,track,c__4322__auto__,size__4323__auto__,b__12604,s__12602__$2,temp__5457__auto__))
+,cljs.core.partition.cljs$core$IFn$_invoke$arity$2((2),cljs.core.nth.cljs$core$IFn$_invoke$arity$2(mecca.midi.midi_tracks(file),track))))),cljs.core.cst$kw$read_DASH_only,true], null)], null)], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$key,track], null)));
+
+var G__12605 = (i__12603 + (1));
+i__12603 = G__12605;
+continue;
+} else {
+return true;
+}
+break;
+}
+})()){
+return cljs.core.chunk_cons(cljs.core.chunk(b__12604),mecca$view$tracks_$_iter__12601(cljs.core.chunk_rest(s__12602__$2)));
+} else {
+return cljs.core.chunk_cons(cljs.core.chunk(b__12604),null);
+}
+} else {
+var track = cljs.core.first(s__12602__$2);
+return cljs.core.cons(cljs.core.with_meta(new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$h4,["Track ",cljs.core.str.cljs$core$IFn$_invoke$arity$1((track + (1)))," - ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(mecca.midi.hex__GT_dec(cljs.core.take.cljs$core$IFn$_invoke$arity$2((8),cljs.core.nth.cljs$core$IFn$_invoke$arity$2(mecca.midi.midi_tracks(file),track))))," bytes"].join('')], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$textarea,new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$rows,(8),cljs.core.cst$kw$cols,(38),cljs.core.cst$kw$value,cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.str,cljs.core.interpose.cljs$core$IFn$_invoke$arity$2(" ",cljs.core.map.cljs$core$IFn$_invoke$arity$2(((function (track,s__12602__$2,temp__5457__auto__){
+return (function (p1__12600_SHARP_){
+return cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.str,p1__12600_SHARP_);
+});})(track,s__12602__$2,temp__5457__auto__))
+,cljs.core.partition.cljs$core$IFn$_invoke$arity$2((2),cljs.core.nth.cljs$core$IFn$_invoke$arity$2(mecca.midi.midi_tracks(file),track))))),cljs.core.cst$kw$read_DASH_only,true], null)], null)], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$key,track], null)),mecca$view$tracks_$_iter__12601(cljs.core.rest(s__12602__$2)));
+}
+} else {
+return null;
+}
+break;
+}
+}),null,null));
+});
+return iter__4324__auto__(cljs.core.range.cljs$core$IFn$_invoke$arity$1(cljs.core.count(mecca.midi.midi_tracks(file))));
+})());
+});
 mecca.view.mecca = (function mecca$view$mecca(){
-return new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$h1,"Import MIDI"], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [mecca.view.file_upload], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [mecca.view.song_picker], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [mecca.view.midi_output], null)], null);
+var file = (function (){var G__12608 = new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$file_DASH_upload], null);
+return (re_frame.core.subscribe.cljs$core$IFn$_invoke$arity$1 ? re_frame.core.subscribe.cljs$core$IFn$_invoke$arity$1(G__12608) : re_frame.core.subscribe.call(null,G__12608));
+})();
+return new cljs.core.PersistentVector(null, 6, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$h1,"Import MIDI"], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [mecca.view.file_upload], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [mecca.view.song_picker], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [mecca.view.midi_output], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [mecca.view.tracks,cljs.core.deref(file)], null)], null);
 });
